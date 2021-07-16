@@ -1,9 +1,12 @@
 package Principal;
 
+import Tabuleiro.Posicao;
+
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("que o jogo comece");
+		Posicao pos = new Posicao(3, 5);
+		System.out.println(pos);
 
 	}
 
