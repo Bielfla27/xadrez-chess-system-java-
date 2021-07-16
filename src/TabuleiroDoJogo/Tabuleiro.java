@@ -7,6 +7,9 @@ public class Tabuleiro {
 	private Peca[][] pecas;
 	
 	public Tabuleiro(int linhas, int colunas) {
+		if(linhas < 1 || colunas < 1 ) {
+			throw new TabuleiroException("Erro criando tabuleiro: tem que ter pelo menos 1 linha e 1 coluna");
+		}
 		this.linhas = linhas;
 		this.colunas = colunas;
 		pecas = new Peca[linhas][colunas]; //sendo instaciada igual a quantidade de linhas e colunas
@@ -16,29 +19,45 @@ public class Tabuleiro {
 		return linhas;
 	}
 
-	public void setLinhas(int linhas) {
-		this.linhas = linhas;
-	}
-
 	public int getColunas() {
 		return colunas;
 	}
-
-	public void setColunas(int colunas) {
-		this.colunas = colunas;
-	}
 	
 	public Peca peca(int linha, int coluna) {
+		if (!posicaoExiste(linha, coluna)) {
+			throw new TabuleiroException("Posiçao nao existe");
+		}
 		return pecas[linha][coluna];
 	}
 
 	public Peca peca(Posicao posicao) {
+		if (!posicaoExiste(posicao)) {
+			throw new TabuleiroException("Posiçao nao existe");
+		}
 		return pecas[posicao.getLinha()][posicao.getColuna()];
 	}
 	
 	public void colocarPeca(Peca peca, Posicao posicao) {
-		 pecas[posicao.getLinha()][posicao.getColuna()] = peca; //estou recebendo a peça 
-		 peca.posicao = posicao; //estou atribuindo uma posição para ela e tirando ela de null
+		if(temPeca(posicao)) {
+			throw new TabuleiroException("Já existe uma peça nessa posiçao " + posicao);
+		}
+		pecas[posicao.getLinha()][posicao.getColuna()] = peca; //estou recebendo a peça 
+		peca.posicao = posicao; //estou atribuindo uma posição para ela e tirando ela de null
+	}
+	
+	public boolean posicaoExiste(int linha, int coluna) { //metodo auxilias de posicao existe
+		return linha >= 0 && linha < linhas && coluna >= 0 && coluna < colunas;
+	}
+	
+	public boolean posicaoExiste(Posicao posicao) { //verifica se posição informada existe
+		return posicaoExiste(posicao.getLinha(), posicao.getColuna());
+	}
+	
+	public boolean temPeca(Posicao posicao) {//verifica se tem peça nessa posição 
+		if (!posicaoExiste(posicao)) {
+			throw new TabuleiroException("Posiçao nao existe");
+		}
+		return peca(posicao) != null; 
 	}
 	
 }
