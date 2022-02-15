@@ -39,10 +39,23 @@ public class Tabuleiro {
 	
 	public void colocarPeca(Peca peca, Posicao posicao) {
 		if(temPeca(posicao)) {
-			throw new TabuleiroException("J√° existe uma pe√ßa nessa posi√ßao " + posicao);
+			throw new TabuleiroException("J· existe uma peÁa nessa posiÁ„o " + posicao);
 		}
 		pecas[posicao.getLinha()][posicao.getColuna()] = peca; //estou recebendo a pe√ßa 
 		peca.posicao = posicao; //estou atribuindo uma posi√ß√£o para ela e tirando ela de null
+	}
+	
+	public Peca removerPeca(Posicao posicao) {
+		if(!posicaoExiste(posicao)) {
+			throw new TabuleiroException("Posi√ßao nao existe");
+		}
+		if(peca(posicao) == null) {
+			return null; 
+		}
+		Peca aux = peca(posicao);
+		aux.posicao = null;
+		pecas[posicao.getLinha()][posicao.getColuna()] = null;
+		return aux;
 	}
 	
 	public boolean posicaoExiste(int linha, int coluna) { //metodo auxilias de posicao existe
